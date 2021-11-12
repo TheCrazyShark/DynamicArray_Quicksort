@@ -1,5 +1,5 @@
 # DynamicArray_Quicksort
-This program dynamically allocates an array large enough to hold a user inputed size of numbers. This array is then sorted in both assending and descending order utilizing a Quicksort algorithm.
+This program dynamically allocates an array large enough to hold a user inputed size of numbers. This array is then sorted in both assending and descending order utilizing a Quicksort algorithm. The average is calculated using the user generated data.
 
 REFERENCES: <br>
 https://www.geeksforgeeks.org/cpp-program-for-quicksort/ <br>
