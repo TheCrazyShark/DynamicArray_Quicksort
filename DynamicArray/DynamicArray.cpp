@@ -1,15 +1,18 @@
 #include <iostream>
+#include <iomanip>
 using namespace std;
 
-int partition(int* arr, int start, int end);
-void quicksort(int* arr, int start, int end);
+int partition(int* arr, int start, int end, bool asc);
+void quickSort(int* arr, int start, int end, bool asc);
 void sortAsc(int* arrAsc, int num);
 void sortDesc(int* arrAsc, int num);
 void calcAvg(int* arr, int num);
-void insert(int* arr);
+void insert(int* arr, int originalNum);
 
 /***********
-    A utility function to swap two elements
+    Preconditions: Called by partition()
+    Role: A utility function to swap two elements in an array
+    Postconditions: Swaps the values that were entered
 ***********/ 
 void swap(int* a, int* b) {
     int t = *a;
@@ -18,10 +21,12 @@ void swap(int* a, int* b) {
 }
 
 /***********
-    This function takes end element as pivot, places
+    Preconditions: Called by QuickSort
+    Role: This function takes end element as pivot, places
     the pivot element at its correct position in sorted
     array, and places all smaller (smaller than pivot)
     to left of pivot and all greater elements to right of pivot 
+    Postconditions: Calls swap() to swap array values
 ************/
 int partition(int* arr, int start, int end, bool asc) {
     int pivot = arr[end];    // pivot
@@ -52,27 +57,27 @@ int partition(int* arr, int start, int end, bool asc) {
 }
 
 /************
-    The main function that implements QuickSort
-    arr[] --> Array to be sorted,
-    low  --> Starting index,
-    high  --> Ending index 
+    Preconditions: Called by sortAsc() and sortDesc()
+    Role: The main function that implements QuickSort
+        arr[] --> Array to be sorted,
+        low  --> Starting index,
+        high  --> Ending index 
+    Postconditions: Calls partition() and quickSort() if not finished sorting
  ***********/
 void quickSort(int* arr, int start, int end, bool asc) {
     if (start < end) {
-        /* pi is partitioning index, arr[p] is now
-           at right place */
-        int pi = partition(arr, start, end, asc);
-        
+        int pi = partition(arr, start, end, asc); // pi is partitioning index, arr[p] is now at right place
 
-        // Separately sort elements before
-        // partition and after partition
+        // Separately sort elements before partition and after partition
         quickSort(arr, start, pi - 1, asc);
         quickSort(arr, pi + 1, end, asc);
     }
 }
 
 /************
-    Calls quickSort using a true boolean value in order to sort in ascending order
+    Preconditions: Called by main()
+    Role: Calls quickSort using a true boolean value in order to sort in ascending order
+    Postconditions: Calls quickSort()
 ************/
 void sortAsc(int *arr, int num) {
     int* arrAsc = arr;
@@ -87,7 +92,9 @@ void sortAsc(int *arr, int num) {
 }
 
 /************
-    Calls quickSort using a false boolean value in order to sort in descending order
+    Preconditions: Called by main()
+    Role: Calls quickSort using a false boolean value in order to sort in descending order
+    Postconditions: Calls quickSort()
 ************/
 void sortDesc(int *arr, int num) {
     int* arrDesc = arr;
@@ -102,7 +109,9 @@ void sortDesc(int *arr, int num) {
 }
 
 /************
-    Calculates average of array and returns it
+    Preconditions: Called by main()
+    Role: Calculates average of array and returns it
+    Postconditions: Outputs average
 ************/
 void calcAvg(int* arr, int num) {
     double avg = 0;
@@ -113,11 +122,13 @@ void calcAvg(int* arr, int num) {
     }
     avg = (double)sum / (double)num;
 
-    cout << endl << "Average: " << avg << endl;
+    cout << endl << "Average: " << fixed << setprecision(2) << avg << endl;
 }
 
 /************
-    Inserts more data into the array after the first round of sorting
+    Preconditions: Called by main()
+    Role: Inserts more data into the array after the first round of sorting
+    Postconditions: Calls sortAsc(), sortDesc(), and calcAvg()
 ************/
 void insert(int* arr, int originalNum) {
     int num;
@@ -154,6 +165,11 @@ void insert(int* arr, int originalNum) {
     delete[]newArr;
 }
 
+/*
+    Preconditions: Program starts running
+    Role: Creates the primary array, gets user input, and calls following functions
+    Postconditions: Calls sortAsc(), sortDesc(), calcAvg(), and insert()
+*/
 int main() {
     int num;
     cout << "How many numbers will you enter? ";
